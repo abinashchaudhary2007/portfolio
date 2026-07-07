@@ -335,8 +335,9 @@ function applySettings(settings) {
   if (detailValues[1]) detailValues[1].textContent = 'BSc. CSIT';
   if (detailValues[2]) detailValues[2].textContent = settings.title || detailValues[2].textContent;
   if (detailValues[3]) detailValues[3].textContent = 'Kathmandu Nepal';
-  if (heroImage) heroImage.src = settings.profilePhoto || heroImage.src;
-  if (aboutImage) aboutImage.src = settings.profilePhoto || aboutImage.src;
+  const isAbsoluteUrl = (url) => typeof url === 'string' && url.startsWith('http');
+  if (heroImage && isAbsoluteUrl(settings.profilePhoto)) heroImage.src = settings.profilePhoto;
+  if (aboutImage && isAbsoluteUrl(settings.profilePhoto)) aboutImage.src = settings.profilePhoto;
   if (contactItems[0]) contactItems[0].textContent = settings.email || contactItems[0].textContent;
   if (contactItems[1]) contactItems[1].textContent = 'Kathmandu Nepal';
   if (githubLink) githubLink.href = settings.github || githubLink.href;
