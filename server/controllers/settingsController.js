@@ -1,5 +1,6 @@
 import { supabase } from '../config/db.js';
 import { getFallbackStore, isFallbackMode, seedFallbackData, setFallbackMode } from '../utils/fallbackStore.js';
+import { uploadToSupabase } from '../utils/uploadToSupabase.js';
 
 const isDatabaseUnavailableError = (error) => {
   const message = error?.message || '';
@@ -82,13 +83,13 @@ export const updateSettings = async (req, res, next) => {
     });
 
     if (req.file) {
-      updateData.profile_photo = `/uploads/${req.file.filename}`;
+      updateData.profile_photo = await uploadToSupabase(req.file);
     }
 
     if (isFallbackMode()) {
       const fallbackData = { ...req.body };
       if (req.file) {
-        fallbackData.profilePhoto = `/uploads/${req.file.filename}`;
+        fallbackData.profilePhoto = await uploadToSupabase(req.file);
       }
       getFallbackStore().settings = { ...getFallbackStore().settings, ...fallbackData };
       return res.json(getFallbackStore().settings);
@@ -132,7 +133,7 @@ export const updateSettings = async (req, res, next) => {
         setFallbackMode(true);
         const fallbackData = { ...req.body };
         if (req.file) {
-          fallbackData.profilePhoto = `/uploads/${req.file.filename}`;
+          fallbackData.profilePhoto = await uploadToSupabase(req.file);
         }
         getFallbackStore().settings = { ...getFallbackStore().settings, ...fallbackData };
         return res.json(getFallbackStore().settings);
