@@ -2,7 +2,7 @@ const initAdmin = () => {
   const root = document.getElementById('admin-root');
   if (!root) return;
 
-  const token = localStorage.getItem('adminToken');
+  const token = sessionStorage.getItem('adminToken');
 
   const setFormStatus = (element, message, type = 'info') => {
     if (!element) return;
@@ -65,7 +65,7 @@ const initAdmin = () => {
         });
         const data = await response.json().catch(() => ({}));
         if (response.ok) {
-          localStorage.setItem('adminToken', data.token);
+          sessionStorage.setItem('adminToken', data.token);
           window.location.reload();
         } else {
           if (response.status === 502 || response.status === 504) {
@@ -555,7 +555,7 @@ const initAdmin = () => {
     const logoutButton = document.getElementById('logout-btn');
     if (logoutButton) {
       logoutButton.addEventListener('click', () => {
-        localStorage.removeItem('adminToken');
+        sessionStorage.removeItem('adminToken');
         window.location.href = '/admin.html';
       });
     }
