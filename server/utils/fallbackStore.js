@@ -6,6 +6,19 @@ const fallbackStore = {
   skills: [],
   settings: null,
   admin: null,
+  visitors: [],
+  aiSettings: {
+    enabled: true,
+    welcome_message: "Hi, I'm Abinash's AI Assistant. How can I help you today?",
+    suggested_questions: [
+      "Tell me about Abinash",
+      "What projects has he built?",
+      "What technologies does he know?",
+      "How can I contact him?"
+    ],
+    availability_status: "Available for freelance work"
+  },
+  aiFaqs: []
 };
 
 export const setFallbackMode = (value) => {
@@ -62,6 +75,23 @@ export const seedFallbackData = async () => {
       { _id: 'skill-1', name: 'HTML5', percentage: 95, category: 'Frontend' },
       { _id: 'skill-2', name: 'Node.js', percentage: 80, category: 'Backend' },
       { _id: 'skill-3', name: 'MongoDB', percentage: 75, category: 'Database' },
+    ];
+  }
+
+  if (!fallbackStore.aiFaqs.length) {
+    fallbackStore.aiFaqs = [
+      {
+        id: 'faq-1',
+        question: 'What is his college degree?',
+        answer: 'Abinash is currently pursuing a B.Sc. in Computer Science and Information Technology (CSIT).',
+        created_at: new Date().toISOString()
+      },
+      {
+        id: 'faq-2',
+        question: 'What is his main development focus?',
+        answer: 'He specializes in building modern web applications using HTML, CSS, JavaScript, Node.js, Express, and Supabase.',
+        created_at: new Date().toISOString()
+      }
     ];
   }
 };
