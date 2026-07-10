@@ -25,10 +25,32 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (curl, Postman, server-to-server)
     if (!origin) return callback(null, true);
-    const allowed = [
-      /^http:\/\/localhost:\d+$/,       // any localhost port (dev)
-      /\.vercel\.app$/,                  // any *.vercel.app domain
-    ];
+    app.use(cors({
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+
+        const allowedOrigins = [
+          /^http:\/\/localhost:\d+$/,
+          /^https:\/\/.*\.vercel\.app$/,
+          "https://chaudharyabinash.com.np",
+          "https://www.chaudharyabinash.com.np"
+        ];
+
+        const isAllowed = allowedOrigins.some(item => {
+          if (item instanceof RegExp) {
+            return item.test(origin);
+          }
+          return item === origin;
+        });
+
+        if (isAllowed) {
+          return callback(null, true);
+        }
+
+        callback(new Error(`CORS blocked: ${origin}`));
+      },
+      credentials: true,
+    }));
     if (allowed.some((pattern) => pattern.test(origin))) {
       return callback(null, true);
     }
