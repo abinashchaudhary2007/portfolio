@@ -134,3 +134,60 @@ CREATE POLICY "Allow admin write access to ai_faqs" ON public.ai_faqs
     FOR ALL TO authenticated
     USING (true)
     WITH CHECK (true);
+
+
+-- ==========================================================
+-- 4. EXPERIENCES TABLE
+-- ==========================================================
+CREATE TABLE IF NOT EXISTS public.experiences (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    period TEXT NOT NULL,
+    description TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Enable RLS
+ALTER TABLE public.experiences ENABLE ROW LEVEL SECURITY;
+
+-- Policies
+DROP POLICY IF EXISTS "Allow public read access to experiences" ON public.experiences;
+CREATE POLICY "Allow public read access to experiences" ON public.experiences
+    FOR SELECT TO public, anon, authenticated
+    USING (true);
+
+DROP POLICY IF EXISTS "Allow admin write access to experiences" ON public.experiences;
+CREATE POLICY "Allow admin write access to experiences" ON public.experiences
+    FOR ALL TO public, anon, authenticated
+    USING (true)
+    WITH CHECK (true);
+
+
+-- ==========================================================
+-- 5. CERTIFICATIONS TABLE
+-- ==========================================================
+CREATE TABLE IF NOT EXISTS public.certifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    subtitle TEXT NOT NULL,
+    issue_date TEXT NOT NULL DEFAULT '2026',
+    icon TEXT NOT NULL DEFAULT 'award',
+    credential_url TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+-- Enable RLS
+ALTER TABLE public.certifications ENABLE ROW LEVEL SECURITY;
+
+-- Policies
+DROP POLICY IF EXISTS "Allow public read access to certifications" ON public.certifications;
+CREATE POLICY "Allow public read access to certifications" ON public.certifications
+    FOR SELECT TO public, anon, authenticated
+    USING (true);
+
+DROP POLICY IF EXISTS "Allow admin write access to certifications" ON public.certifications;
+CREATE POLICY "Allow admin write access to certifications" ON public.certifications
+    FOR ALL TO public, anon, authenticated
+    USING (true)
+    WITH CHECK (true);
+

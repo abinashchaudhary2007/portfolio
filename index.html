@@ -687,6 +687,30 @@
     </div>
   </div>
 
+  <!-- Certificate Modal Lightbox -->
+  <div id="certificate-modal" class="cert-modal hidden" aria-hidden="true" role="dialog">
+    <div class="cert-modal-overlay" id="cert-modal-backdrop"></div>
+    <div class="cert-modal-card">
+      <button id="cert-modal-close" class="cert-modal-close" aria-label="Close modal">&times;</button>
+      <div class="cert-modal-header">
+        <div id="cert-modal-icon" class="cert-modal-icon">🏆</div>
+        <div>
+          <h3 id="cert-modal-title">Certificate Title</h3>
+          <p id="cert-modal-subtitle">Issuer & Subtitle</p>
+        </div>
+      </div>
+      <div class="cert-modal-body">
+        <div id="cert-modal-preview" class="cert-modal-preview">
+          <!-- Dynamic preview -->
+        </div>
+      </div>
+      <div class="cert-modal-footer">
+        <span id="cert-modal-date" class="cert-modal-date">Issued: 2026</span>
+        <a id="cert-modal-action-btn" href="#" target="_blank" rel="noreferrer" class="cert-modal-btn hidden">View Full Certificate ↗</a>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="/src/main.js"></script>
 </body>
 

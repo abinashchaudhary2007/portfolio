@@ -347,19 +347,186 @@ function applySettings(settings) {
   document.title = `${settings.name || 'Abinash Kumar Chaudhary'} | ${settings.title || 'Full-Stack Developer'}`;
 }
 
+function getCertIconSVG(icon) {
+  if (icon === 'star') {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+  }
+  if (icon === 'layout') {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>`;
+  }
+  if (icon === 'book') {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`;
+}
+
+function openCertificateModal(cert) {
+  const modal = document.getElementById('certificate-modal');
+  if (!modal) return;
+
+  const modalTitle = document.getElementById('cert-modal-title');
+  const modalSubtitle = document.getElementById('cert-modal-subtitle');
+  const modalDate = document.getElementById('cert-modal-date');
+  const modalIcon = document.getElementById('cert-modal-icon');
+  const modalPreview = document.getElementById('cert-modal-preview');
+  const modalActionBtn = document.getElementById('cert-modal-action-btn');
+
+  if (modalTitle) modalTitle.textContent = cert.title || 'Certificate';
+  if (modalSubtitle) modalSubtitle.textContent = cert.subtitle || '';
+  if (modalDate) modalDate.textContent = `Issued: ${cert.issueDate || '2026'}`;
+  if (modalIcon) modalIcon.innerHTML = getCertIconSVG(cert.icon || 'award');
+
+  if (modalPreview) {
+    if (cert.credentialUrl && cert.credentialUrl.trim()) {
+      const url = cert.credentialUrl.trim();
+      if (url.endsWith('.pdf')) {
+        modalPreview.innerHTML = `
+          <div class="cert-pdf-preview">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <p style="margin-top: 10px; font-weight: 600;">PDF Certificate Attached</p>
+            <a href="${url}" target="_blank" rel="noreferrer" class="cert-modal-btn" style="margin-top: 14px; display: inline-flex;">Open PDF Document ↗</a>
+          </div>
+        `;
+      } else {
+        modalPreview.innerHTML = `
+          <img src="${url}" alt="${cert.title}" class="cert-preview-img" />
+        `;
+      }
+    } else {
+      modalPreview.innerHTML = `
+        <div class="cert-generated-badge">
+          <div class="badge-ribbon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--accent-500)" stroke-width="1.5"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          </div>
+          <h4>Certificate of Achievement</h4>
+          <p class="cert-holder">Awarded to <strong>Abinash Kumar Chaudhary</strong></p>
+          <div class="cert-badge-detail">
+            <span class="badge-title">${cert.title}</span>
+            <span class="badge-sub">${cert.subtitle}</span>
+          </div>
+          <span class="cert-verified-tag">✓ Verified Digital Credential</span>
+        </div>
+      `;
+    }
+  }
+
+  if (modalActionBtn) {
+    if (cert.credentialUrl && cert.credentialUrl.trim()) {
+      modalActionBtn.href = cert.credentialUrl.trim();
+      modalActionBtn.classList.remove('hidden');
+    } else {
+      modalActionBtn.classList.add('hidden');
+    }
+  }
+
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCertificateModal() {
+  const modal = document.getElementById('certificate-modal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function initCertificateModal() {
+  const closeBtn = document.getElementById('cert-modal-close');
+  const backdrop = document.getElementById('cert-modal-backdrop');
+
+  closeBtn?.addEventListener('click', closeCertificateModal);
+  backdrop?.addEventListener('click', closeCertificateModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCertificateModal();
+  });
+}
+
+function renderExperiences(experiences) {
+  const timelineContainer = document.querySelector('.timeline');
+  if (!timelineContainer || !experiences || !experiences.length) return;
+
+  timelineContainer.innerHTML = experiences.map((exp) => `
+    <div class="timeline-item reveal visible">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <span class="timeline-date">${exp.period || '2026'}</span>
+        <h3>${exp.title}</h3>
+        <p>${exp.description}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderCertifications(certifications) {
+  const achievementList = document.querySelector('.achievement-list');
+  if (!achievementList || !certifications || !certifications.length) return;
+
+  achievementList.innerHTML = certifications.map((cert) => `
+    <div class="achievement-card clickable-cert-card" data-cert-id="${cert._id}" style="cursor: pointer;" title="Click to view certificate">
+      <div class="achievement-icon">
+        ${getCertIconSVG(cert.icon)}
+      </div>
+      <div style="flex-grow: 1;">
+        <h4>${cert.title}</h4>
+        <p>${cert.subtitle}</p>
+      </div>
+      <div class="cert-view-badge">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+    </div>
+  `).join('');
+
+  achievementList.querySelectorAll('.clickable-cert-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      const id = card.getAttribute('data-cert-id');
+      const certObj = certifications.find((c) => c._id === id);
+      if (certObj) openCertificateModal(certObj);
+    });
+  });
+}
+
+function attachStaticCertListeners() {
+  const cards = document.querySelectorAll('.achievement-card');
+  cards.forEach((card) => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      const title = card.querySelector('h4')?.textContent || 'Certificate';
+      const subtitle = card.querySelector('p')?.textContent || '';
+      openCertificateModal({
+        title,
+        subtitle,
+        issueDate: '2026',
+        icon: 'award'
+      });
+    });
+  });
+}
+
 async function loadPortfolioData() {
   try {
-    const [settings, projects, skills] = await Promise.all([
-      apiRequest('/api/settings'),
-      apiRequest('/api/projects'),
-      apiRequest('/api/skills'),
+    initCertificateModal();
+
+    const [settings, projects, skills, experiences, certs] = await Promise.all([
+      apiRequest('/api/settings').catch(() => null),
+      apiRequest('/api/projects').catch(() => []),
+      apiRequest('/api/skills').catch(() => []),
+      apiRequest('/api/experiences').catch(() => []),
+      apiRequest('/api/certifications').catch(() => []),
     ]);
 
     applySettings(settings || {});
     renderProjects(projects || []);
     renderSkills(skills || []);
+    if (experiences && experiences.length) renderExperiences(experiences);
+    if (certs && certs.length) {
+      renderCertifications(certs);
+    } else {
+      attachStaticCertListeners();
+    }
   } catch (error) {
     console.error(error);
+    attachStaticCertListeners();
   }
 }
 

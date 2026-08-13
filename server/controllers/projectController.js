@@ -72,7 +72,7 @@ export const createProject = async (req, res, next) => {
 
     const parsedTech = parseTechStack(techStack);
     const isFeatured = featured === 'true' || featured === true;
-    const imageUrl = req.file ? await uploadToSupabase(req.file) : '';
+    const imageUrl = (req.file && req.file.size > 0) ? await uploadToSupabase(req.file) : '';
 
     if (isFallbackMode()) {
       const project = {
@@ -136,7 +136,7 @@ export const updateProject = async (req, res, next) => {
   try {
     const parsedTech = req.body.techStack ? parseTechStack(req.body.techStack) : undefined;
     const isFeatured = req.body.featured !== undefined ? (req.body.featured === 'true' || req.body.featured === true) : undefined;
-    const imageUrl = req.file ? await uploadToSupabase(req.file) : undefined;
+    const imageUrl = (req.file && req.file.size > 0) ? await uploadToSupabase(req.file) : undefined;
 
     if (isFallbackMode()) {
       const project = getFallbackStore().projects.find((item) => item._id === req.params.id);

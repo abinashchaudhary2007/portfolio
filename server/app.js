@@ -15,6 +15,8 @@ import skillRoutes from './routes/skillRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import experienceRoutes from './routes/experienceRoutes.js';
+import certificationRoutes from './routes/certificationRoutes.js';
 
 import { errorHandler } from './middleware/errorHandler.js';
 
@@ -84,6 +86,8 @@ app.use('/api/skills', skillRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/ai', aiRoutes);
+app.use('/api/experiences', experienceRoutes);
+app.use('/api/certifications', certificationRoutes);
 
 // Error Handler
 app.use(errorHandler);

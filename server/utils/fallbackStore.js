@@ -4,6 +4,8 @@ const fallbackStore = {
   contacts: [],
   projects: [],
   skills: [],
+  experiences: [],
+  certifications: [],
   settings: null,
   admin: null,
   visitors: [],
@@ -75,6 +77,73 @@ export const seedFallbackData = async () => {
       { _id: 'skill-1', name: 'HTML5', percentage: 95, category: 'Frontend' },
       { _id: 'skill-2', name: 'Node.js', percentage: 80, category: 'Backend' },
       { _id: 'skill-3', name: 'MongoDB', percentage: 75, category: 'Database' },
+    ];
+  }
+
+  if (!fallbackStore.experiences.length) {
+    fallbackStore.experiences = [
+      {
+        _id: 'exp-1',
+        title: '3+Hackathon participation',
+        period: '2026',
+        description: 'Successful participation in hackathon building Nyaya Mitra, a legal aid platform for underserved communities. Connect grow a platform for students to learn, earn and grow.',
+        createdAt: new Date().toISOString()
+      },
+      {
+        _id: 'exp-2',
+        title: 'Open Source Contributor',
+        period: '2026',
+        description: 'Active contributor to open-source projects with meaningful PRs merged into community repositories.',
+        createdAt: new Date().toISOString()
+      },
+      {
+        _id: 'exp-3',
+        title: 'BSc. CSIT Student',
+        period: '2026- Present',
+        description: 'Pursuing Computer Science & Information Technology with focus on software engineering and web development.',
+        createdAt: new Date().toISOString()
+      }
+    ];
+  }
+
+  if (!fallbackStore.certifications.length) {
+    fallbackStore.certifications = [
+      {
+        _id: 'cert-1',
+        title: 'Hackathon experienced',
+        subtitle: '3+ Hackathon participation 2026',
+        issueDate: '2026',
+        icon: 'star',
+        credentialUrl: '',
+        createdAt: new Date().toISOString()
+      },
+      {
+        _id: 'cert-2',
+        title: 'Web Development',
+        subtitle: 'Certified Full-Stack Developer',
+        issueDate: '2026',
+        icon: 'layout',
+        credentialUrl: '',
+        createdAt: new Date().toISOString()
+      },
+      {
+        _id: 'cert-3',
+        title: 'Problem Solving',
+        subtitle: 'Competitive Programming Finalist',
+        issueDate: '2026',
+        icon: 'award',
+        credentialUrl: '',
+        createdAt: new Date().toISOString()
+      },
+      {
+        _id: 'cert-4',
+        title: 'CS Fundamentals',
+        subtitle: 'Data Structures & Algorithms Certified',
+        issueDate: '2026',
+        icon: 'book',
+        credentialUrl: '',
+        createdAt: new Date().toISOString()
+      }
     ];
   }
 
