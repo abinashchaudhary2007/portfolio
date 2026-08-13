@@ -690,7 +690,7 @@ textarea {
 
 .hero-rank-badge {
   position: absolute;
-  bottom: -22px;
+  bottom: -32px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -707,7 +707,16 @@ textarea {
   white-space: nowrap;
   z-index: 3;
   box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
-  animation: float 4s ease-in-out infinite;
+  animation: gentle-float-rank 5s ease-in-out infinite;
+}
+
+@keyframes gentle-float-rank {
+  0%, 100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-46%, 4px);
+  }
 }
 
 .hero-rank-badge strong {
