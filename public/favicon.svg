@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1c" />
+      <stop offset="50%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+
+    <!-- Border Glow Gradient -->
+    <linearGradient id="border-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#8b5cf6" />
+    </linearGradient>
+
+    <!-- Main 'A' Left Stroke -->
+    <linearGradient id="left-stroke" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <!-- Main 'A' Right Stroke -->
+    <linearGradient id="right-stroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Base Card Background -->
+  <rect x="16" y="16" width="480" height="480" rx="108" fill="url(#bg-grad)" stroke="url(#border-grad)" stroke-width="12" />
+
+  <!-- Code brackets subtle accent in background -->
+  <path d="M 120 256 L 70 206 L 70 306 Z" fill="#38bdf8" opacity="0.15" />
+  <path d="M 392 256 L 442 206 L 442 306 Z" fill="#a855f7" opacity="0.15" />
+
+  <!-- Monogram 'A' Structure -->
+  <g filter="url(#glow)">
+    <!-- Left Leg of A -->
+    <path d="M 256 96 L 136 400 L 192 400 L 256 230 Z" fill="url(#left-stroke)" />
+    
+    <!-- Right Leg of A -->
+    <path d="M 256 96 L 256 230 L 320 400 L 376 400 Z" fill="url(#right-stroke)" />
+    
+    <!-- Tech Crossbar with Code Notch -->
+    <path d="M 180 300 L 332 300 L 348 340 L 164 340 Z" fill="url(#border-grad)" />
+    
+    <!-- Glowing Center Dot Accent -->
+    <circle cx="256" cy="190" r="16" fill="#60a5fa" />
+  </g>
+</svg>
