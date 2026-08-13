@@ -67,7 +67,7 @@ themeToggle?.addEventListener('click', () => {
 
 const titles = [
   'Full-Stack Developer',
-  'CSIT Student',
+  'CSIT Student (Rank: 166)',
   'Problem Solver',
   'Open Source Enthusiast',
   'MERN Stack Developer',
