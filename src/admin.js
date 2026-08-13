@@ -250,7 +250,10 @@ const initAdmin = () => {
                   Timeline Experience
                 </h4>
                 <form id="experience-form" class="admin-form" style="margin-bottom: 20px;">
-                  <input name="title" placeholder="Title (e.g. 3+ Hackathon participation)" required />
+                  <div style="display: flex; gap: 10px; width: 100%;">
+                    <input name="title" placeholder="Title (e.g. Hackathon experienced)" required style="flex: 2;" />
+                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" value="1" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
+                  </div>
                   <input name="period" placeholder="Period (e.g. 2026 or 2026-Present)" required />
                   <textarea name="description" placeholder="Description..." required style="grid-column: 1 / -1; min-height: 80px;"></textarea>
                   <div id="experience-status" class="admin-status"></div>
@@ -811,15 +814,18 @@ const initAdmin = () => {
             expList.innerHTML = '<p class="empty-state" style="padding:12px 0;">No experiences added yet.</p>';
             return;
           }
-          expList.innerHTML = experiences.map((exp) => `
+          expList.innerHTML = experiences.map((exp, index) => `
             <div class="admin-item">
               <div class="item-info">
-                <strong>${exp.title}</strong>
-                <span class="skill-category-badge">${exp.period}</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(59,130,246,0.18); color: var(--accent-300); font-weight: 600; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px;">#${exp.order || index + 1}</span>
+                  <strong>${exp.title}</strong>
+                </div>
+                <span class="skill-category-badge" style="margin-top: 6px; display: inline-block;">${exp.period}</span>
                 <p style="margin-top: 6px; font-size: 0.9rem; color: var(--text-secondary);">${exp.description}</p>
               </div>
               <div class="admin-item-actions">
-                <button class="btn-edit" data-id="${exp._id}" data-title="${encodeURIComponent(exp.title)}" data-period="${encodeURIComponent(exp.period)}" data-description="${encodeURIComponent(exp.description)}" data-action="edit-experience">Edit</button>
+                <button class="btn-edit" data-id="${exp._id}" data-title="${encodeURIComponent(exp.title)}" data-period="${encodeURIComponent(exp.period)}" data-description="${encodeURIComponent(exp.description)}" data-order="${exp.order || index + 1}" data-action="edit-experience">Edit</button>
                 <button class="btn-delete" data-id="${exp._id}" data-action="delete-experience">Delete</button>
               </div>
             </div>
@@ -1175,6 +1181,8 @@ const initAdmin = () => {
           form.querySelector('[name="title"]').value = decodeURIComponent(btn.dataset.title || '');
           form.querySelector('[name="period"]').value = decodeURIComponent(btn.dataset.period || '');
           form.querySelector('[name="description"]').value = decodeURIComponent(btn.dataset.description || '');
+          const orderInput = form.querySelector('[name="order"]');
+          if (orderInput) orderInput.value = btn.dataset.order || 1;
           const submitBtn = form.querySelector('button[type="submit"]');
           if (submitBtn) submitBtn.textContent = 'Update Experience';
           if (!document.getElementById('exp-cancel-btn')) {

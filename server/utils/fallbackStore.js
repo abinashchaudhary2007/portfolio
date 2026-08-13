@@ -87,6 +87,7 @@ export const seedFallbackData = async () => {
         title: '3+Hackathon participation',
         period: '2026',
         description: 'Successful participation in hackathon building Nyaya Mitra, a legal aid platform for underserved communities. Connect grow a platform for students to learn, earn and grow.',
+        order: 1,
         createdAt: new Date().toISOString()
       },
       {
@@ -94,6 +95,7 @@ export const seedFallbackData = async () => {
         title: 'Open Source Contributor',
         period: '2026',
         description: 'Active contributor to open-source projects with meaningful PRs merged into community repositories.',
+        order: 2,
         createdAt: new Date().toISOString()
       },
       {
@@ -101,6 +103,7 @@ export const seedFallbackData = async () => {
         title: 'BSc. CSIT Student',
         period: '2026- Present',
         description: 'Pursuing Computer Science & Information Technology with focus on software engineering and web development.',
+        order: 3,
         createdAt: new Date().toISOString()
       }
     ];

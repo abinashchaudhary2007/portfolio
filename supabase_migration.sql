@@ -144,8 +144,12 @@ CREATE TABLE IF NOT EXISTS public.experiences (
     title TEXT NOT NULL,
     period TEXT NOT NULL,
     description TEXT NOT NULL,
+    display_order INT NOT NULL DEFAULT 1,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Ensure display_order column exists if table was already created
+ALTER TABLE public.experiences ADD COLUMN IF NOT EXISTS display_order INT NOT NULL DEFAULT 1;
 
 -- Enable RLS
 ALTER TABLE public.experiences ENABLE ROW LEVEL SECURITY;

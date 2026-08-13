@@ -446,7 +446,9 @@ function renderExperiences(experiences) {
   const timelineContainer = document.querySelector('.timeline');
   if (!timelineContainer || !experiences || !experiences.length) return;
 
-  timelineContainer.innerHTML = experiences.map((exp) => `
+  const sorted = [...experiences].sort((a, b) => (a.order || 1) - (b.order || 1));
+
+  timelineContainer.innerHTML = sorted.map((exp) => `
     <div class="timeline-item reveal visible">
       <div class="timeline-dot"></div>
       <div class="timeline-content">
