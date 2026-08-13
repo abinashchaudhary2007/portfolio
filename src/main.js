@@ -464,7 +464,9 @@ function renderCertifications(certifications) {
   const achievementList = document.querySelector('.achievement-list');
   if (!achievementList || !certifications || !certifications.length) return;
 
-  achievementList.innerHTML = certifications.map((cert) => `
+  const sorted = [...certifications].sort((a, b) => (a.order || 1) - (b.order || 1));
+
+  achievementList.innerHTML = sorted.map((cert) => `
     <div class="achievement-card clickable-cert-card" data-cert-id="${cert._id}" style="cursor: pointer;" title="Click to view certificate">
       <div class="achievement-icon">
         ${getCertIconSVG(cert.icon)}

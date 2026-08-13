@@ -118,6 +118,7 @@ export const seedFallbackData = async () => {
         issueDate: '2026',
         icon: 'star',
         credentialUrl: '',
+        order: 1,
         createdAt: new Date().toISOString()
       },
       {
@@ -127,6 +128,7 @@ export const seedFallbackData = async () => {
         issueDate: '2026',
         icon: 'layout',
         credentialUrl: '',
+        order: 2,
         createdAt: new Date().toISOString()
       },
       {
@@ -136,6 +138,7 @@ export const seedFallbackData = async () => {
         issueDate: '2026',
         icon: 'award',
         credentialUrl: '',
+        order: 3,
         createdAt: new Date().toISOString()
       },
       {
@@ -145,6 +148,7 @@ export const seedFallbackData = async () => {
         issueDate: '2026',
         icon: 'book',
         credentialUrl: '',
+        order: 4,
         createdAt: new Date().toISOString()
       }
     ];

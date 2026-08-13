@@ -269,7 +269,10 @@ const initAdmin = () => {
                   Certifications & Awards
                 </h4>
                 <form id="certification-form" class="admin-form" style="margin-bottom: 20px;">
-                  <input name="title" placeholder="Title (e.g. Hackathon experienced)" required />
+                  <div style="display: flex; gap: 10px; width: 100%;">
+                    <input name="title" placeholder="Title (e.g. Hackathon experienced)" required style="flex: 2;" />
+                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" value="1" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
+                  </div>
                   <input name="subtitle" placeholder="Subtitle / Issuer (e.g. 3+ Hackathon participation 2026)" required />
                   <input name="issueDate" placeholder="Date (e.g. 2026)" />
                   <select name="icon">
@@ -847,17 +850,20 @@ const initAdmin = () => {
             certList.innerHTML = '<p class="empty-state" style="padding:12px 0;">No certifications added yet.</p>';
             return;
           }
-          certList.innerHTML = certs.map((cert) => `
+          certList.innerHTML = certs.map((cert, index) => `
             <div class="admin-item">
               <div class="item-info">
-                <strong>${cert.title}</strong>
-                <span class="skill-category-badge">${cert.subtitle} (${cert.issueDate || '2026'})</span>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(59,130,246,0.18); color: var(--accent-300); font-weight: 600; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px;">#${cert.order || index + 1}</span>
+                  <strong>${cert.title}</strong>
+                </div>
+                <span class="skill-category-badge" style="margin-top: 6px; display: inline-block;">${cert.subtitle} (${cert.issueDate || '2026'})</span>
                 <div style="margin-top: 6px;">
                   ${cert.credentialUrl ? `<a href="${cert.credentialUrl}" target="_blank" style="font-size:0.85rem; color:var(--accent-400);">View Certificate Attachment ↗</a>` : '<span style="font-size:0.8rem; opacity:0.6;">No certificate image/URL attached</span>'}
                 </div>
               </div>
               <div class="admin-item-actions">
-                <button class="btn-edit" data-id="${cert._id}" data-title="${encodeURIComponent(cert.title)}" data-subtitle="${encodeURIComponent(cert.subtitle)}" data-issuedate="${encodeURIComponent(cert.issueDate || '2026')}" data-icon="${encodeURIComponent(cert.icon || 'award')}" data-credentialurl="${encodeURIComponent(cert.credentialUrl || '')}" data-action="edit-certification">Edit</button>
+                <button class="btn-edit" data-id="${cert._id}" data-title="${encodeURIComponent(cert.title)}" data-subtitle="${encodeURIComponent(cert.subtitle)}" data-issuedate="${encodeURIComponent(cert.issueDate || '2026')}" data-icon="${encodeURIComponent(cert.icon || 'award')}" data-credentialurl="${encodeURIComponent(cert.credentialUrl || '')}" data-order="${cert.order || index + 1}" data-action="edit-certification">Edit</button>
                 <button class="btn-delete" data-id="${cert._id}" data-action="delete-certification">Delete</button>
               </div>
             </div>
@@ -1211,6 +1217,8 @@ const initAdmin = () => {
           form.querySelector('[name="subtitle"]').value = decodeURIComponent(btn.dataset.subtitle || '');
           form.querySelector('[name="issueDate"]').value = decodeURIComponent(btn.dataset.issuedate || '');
           form.querySelector('[name="icon"]').value = decodeURIComponent(btn.dataset.icon || 'award');
+          const orderInput = form.querySelector('[name="order"]');
+          if (orderInput) orderInput.value = btn.dataset.order || 1;
           const credInput = form.querySelector('[name="credentialUrl"]');
           if (credInput) credInput.value = decodeURIComponent(btn.dataset.credentialurl || '');
           const submitBtn = form.querySelector('button[type="submit"]');

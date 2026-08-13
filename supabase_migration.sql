@@ -177,8 +177,12 @@ CREATE TABLE IF NOT EXISTS public.certifications (
     issue_date TEXT NOT NULL DEFAULT '2026',
     icon TEXT NOT NULL DEFAULT 'award',
     credential_url TEXT,
+    display_order INT NOT NULL DEFAULT 1,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
+
+-- Ensure display_order column exists if table was already created
+ALTER TABLE public.certifications ADD COLUMN IF NOT EXISTS display_order INT NOT NULL DEFAULT 1;
 
 -- Enable RLS
 ALTER TABLE public.certifications ENABLE ROW LEVEL SECURITY;
