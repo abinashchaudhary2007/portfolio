@@ -448,19 +448,16 @@ function renderExperiences(experiences) {
 
   const sorted = [...experiences].sort((a, b) => (a.order || 1) - (b.order || 1));
 
-  timelineContainer.innerHTML = sorted.map((exp) => {
-    const cleanTitle = (exp.title || '').replace(/\s*\(Rank:\s*\d+\)/gi, '').trim();
-    return `
+  timelineContainer.innerHTML = sorted.map((exp) => `
     <div class="timeline-item reveal visible">
       <div class="timeline-dot"></div>
       <div class="timeline-content">
         <span class="timeline-date">${exp.period || '2026'}</span>
-        <h3>${cleanTitle}</h3>
+        <h3>${exp.title}</h3>
         <p>${exp.description}</p>
       </div>
     </div>
-  `;
-  }).join('');
+  `).join('');
 }
 
 function renderCertifications(certifications) {
