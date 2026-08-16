@@ -84,17 +84,23 @@ const rebalanceOrders = async (targetId = null, targetNewOrder = null) => {
 
   // Re-assign 1, 2, 3...
   const updatePromises = [];
+  const now = Date.now();
   for (let i = 0; i < allItems.length; i++) {
     const expectedOrder = i + 1;
     if (allItems[i].display_order !== expectedOrder) {
       allItems[i].display_order = expectedOrder;
       allItems[i].order = expectedOrder;
+      const fakeCreatedAt = new Date(now - i * 1000).toISOString();
       updatePromises.push(
         supabase
           .from('experiences')
           .update({ display_order: expectedOrder })
           .eq('id', allItems[i].id)
-          .then(() => {})
+          .then(({ error }) => {
+            if (error) {
+              return supabase.from('experiences').update({ created_at: fakeCreatedAt }).eq('id', allItems[i].id);
+            }
+          })
           .catch(() => {})
       );
     }
@@ -180,7 +186,10 @@ export const createExperience = async (req, res, next) => {
       return res.status(400).json({ message: 'Title, period, and description are required' });
     }
 
-    const orderNum = parseInt(order, 10) || 1;
+    let orderNum = parseInt(order, 10);
+    if (isNaN(orderNum)) {
+      orderNum = 9999;
+    }
 
     const fallbackExp = {
       _id: `exp-${Date.now()}`,

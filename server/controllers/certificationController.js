@@ -98,17 +98,23 @@ const rebalanceOrders = async (targetId = null, targetNewOrder = null) => {
   }
 
   const updatePromises = [];
+  const now = Date.now();
   for (let i = 0; i < allItems.length; i++) {
     const expectedOrder = i + 1;
     if (allItems[i].display_order !== expectedOrder) {
       allItems[i].display_order = expectedOrder;
       allItems[i].order = expectedOrder;
+      const fakeCreatedAt = new Date(now - i * 1000).toISOString();
       updatePromises.push(
         supabase
           .from('certifications')
           .update({ display_order: expectedOrder })
           .eq('id', allItems[i].id)
-          .then(() => {})
+          .then(({ error }) => {
+            if (error) {
+              return supabase.from('certifications').update({ created_at: fakeCreatedAt }).eq('id', allItems[i].id);
+            }
+          })
           .catch(() => {})
       );
     }
@@ -192,7 +198,10 @@ export const createCertification = async (req, res, next) => {
       return res.status(400).json({ message: 'Title and subtitle are required' });
     }
 
-    const orderNum = parseInt(order, 10) || 1;
+    let orderNum = parseInt(order, 10);
+    if (isNaN(orderNum)) {
+      orderNum = 9999;
+    }
 
     let finalCredentialUrl = credentialUrl || '';
     const files = req.files && req.files.length ? req.files : (req.file ? [req.file] : []);

@@ -252,7 +252,7 @@ const initAdmin = () => {
                 <form id="experience-form" class="admin-form" style="margin-bottom: 20px;">
                   <div style="display: flex; gap: 10px; width: 100%;">
                     <input name="title" placeholder="Title (e.g. Hackathon experienced)" required style="flex: 2;" />
-                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" value="1" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
+                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
                   </div>
                   <input name="period" placeholder="Period (e.g. 2026 or 2026-Present)" required />
                   <textarea name="description" placeholder="Description..." required style="grid-column: 1 / -1; min-height: 80px;"></textarea>
@@ -271,7 +271,7 @@ const initAdmin = () => {
                 <form id="certification-form" class="admin-form" style="margin-bottom: 20px;">
                   <div style="display: flex; gap: 10px; width: 100%;">
                     <input name="title" placeholder="Title (e.g. Hackathon experienced)" required style="flex: 2;" />
-                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" value="1" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
+                    <input name="order" type="number" min="1" placeholder="Order (1, 2, 3...)" title="Priority Order (1 for 1st, 2 for 2nd, etc.)" style="flex: 1;" />
                   </div>
                   <input name="subtitle" placeholder="Subtitle / Issuer (e.g. 3+ Hackathon participation 2026)" required />
                   <input name="issueDate" placeholder="Date (e.g. 2026)" />
