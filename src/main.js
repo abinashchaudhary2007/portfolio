@@ -67,7 +67,7 @@ themeToggle?.addEventListener('click', () => {
 
 const titles = [
   'Full-Stack Developer',
-  'CSIT Student (Rank: 166)',
+  'CSIT Student',
   'Problem Solver',
   'Open Source Enthusiast',
   'MERN Stack Developer',
@@ -448,16 +448,19 @@ function renderExperiences(experiences) {
 
   const sorted = [...experiences].sort((a, b) => (a.order || 1) - (b.order || 1));
 
-  timelineContainer.innerHTML = sorted.map((exp) => `
+  timelineContainer.innerHTML = sorted.map((exp) => {
+    const cleanTitle = (exp.title || '').replace(/\s*\(Rank:\s*\d+\)/gi, '').trim();
+    return `
     <div class="timeline-item reveal visible">
       <div class="timeline-dot"></div>
       <div class="timeline-content">
         <span class="timeline-date">${exp.period || '2026'}</span>
-        <h3>${exp.title}</h3>
+        <h3>${cleanTitle}</h3>
         <p>${exp.description}</p>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 
 function renderCertifications(certifications) {
@@ -657,7 +660,7 @@ const trackVisit = async (pageName) => {
         geo.country = geoRes.country_name;
         geo.city = geoRes.city;
       }
-    } catch (_) {}
+    } catch (_) { }
 
     await fetch('/api/analytics/track', {
       method: 'POST',
@@ -711,8 +714,8 @@ const initAIChatbot = async () => {
   if (!container || !messagesList || !chatForm || !messageInput) return;
 
   // Fetch AI settings
-  let aiSettings = { 
-    enabled: true, 
+  let aiSettings = {
+    enabled: true,
     welcome_message: "Hi! I'm your AI assistant. Ask me anything — coding, general questions, or about Abinash's work.",
     suggested_questions: [
       'Explain async/await in JavaScript',
@@ -722,7 +725,7 @@ const initAIChatbot = async () => {
     ],
     availability_status: 'Available for freelance work and collaboration'
   };
-  
+
   try {
     const settingsRes = await fetch('/api/ai/settings');
     if (settingsRes.ok) {
@@ -809,24 +812,24 @@ const initAIChatbot = async () => {
    */
   const parseMarkdown = (text) => {
     if (typeof text !== 'string') return text;
-    
+
     let html = escapeHTML(text);
-    
+
     // Bold: **text** → <strong>text</strong>
     html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
+
     // Italic: *text* → <em>text</em>
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
+
     // Code: `code` → <code>code</code>
     html = html.replace(/`(.*?)`/g, '<code>$1</code>');
-    
+
     // Links: [text](url) → <a href="url" target="_blank">text</a>
     html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
-    
+
     // Line breaks
     html = html.replace(/\n/g, '<br>');
-    
+
     return html;
   };
 
@@ -836,11 +839,11 @@ const initAIChatbot = async () => {
   const appendBubble = (text, sender, canCopy = false) => {
     const bubble = document.createElement('div');
     bubble.className = `chat-bubble ${sender}`;
-    
+
     const content = document.createElement('div');
     content.className = 'message-content';
     content.innerHTML = parseMarkdown(text);
-    
+
     bubble.appendChild(content);
 
     // Add copy button for bot messages
@@ -953,7 +956,7 @@ const initAIChatbot = async () => {
       }
     } catch (err) {
       removeTypingIndicator();
-      
+
       if (err.name === 'AbortError') {
         showError('Request timed out. The server took too long to respond.', true);
       } else if (err instanceof TypeError && err.message.includes('fetch')) {
@@ -961,7 +964,7 @@ const initAIChatbot = async () => {
       } else {
         showError('Unable to connect to the AI. Please try again.', true);
       }
-      
+
       console.error('Chat error:', err);
     } finally {
       isWaitingForResponse = false;
@@ -987,7 +990,7 @@ const initAIChatbot = async () => {
     appendBubble(userMsg, 'user');
     messageInput.value = '';
     messageInput.style.height = 'auto';
-    
+
     conversationHistory.push({ role: 'user', text: userMsg });
 
     // Send to API
